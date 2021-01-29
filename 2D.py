@@ -10,6 +10,7 @@ comm = MPI.COMM_WORLD
 rank, size = comm.Get_rank(), comm.Get_size()
 
 Q = int(sqrt(size))
+assert int(sqrt(size)) == sqrt(size), 'number of core is not a perfect square'
 
 myrow,   mycol =   int(rank//Q),             int(rank%Q)
 rowComm, colComm = comm.Split(myrow, mycol), comm.Split(mycol, myrow)
@@ -23,11 +24,11 @@ B = np.random.randint(-1000, 1000, (N, N))
 # with open(f'data\\data-B-{rank}.dat', 'rb') as f:
 # 	B = np.load(f)
 
-BuffA = np.empty(A.shape, dtype='i')
-BuffB = np.empty(B.shape, dtype='i')
+BuffA = np.copy(A)
+BuffB = np.copy(B)
 C = np.zeros(A.shape)
 
-t0 = MPI.Wtime()
+start_time = MPI.Wtime()
 
 for k in range(Q):
 	tmpA = A if mycol == k else BuffA
@@ -38,13 +39,13 @@ for k in range(Q):
 
 	C += np.matmul(tmpA, tmpB)
 
-tn = MPI.Wtime()
+end_time = MPI.Wtime()
 
-t0s = comm.gather(t0, root=0)
-tns = comm.gather(tn, root=0)
+start_times = comm.gather(start_time, root=0)
+end_times = comm.gather(end_time, root=0)
 
 if rank == 0:
-	print(round(max(tns) - min(t0s), 4))
+	print(round(max(end_times) - min(start_times), 4))
 
 # with open(f'res\\res-{rank}.dat', 'wb') as f:
 # 	np.save(f, C)
