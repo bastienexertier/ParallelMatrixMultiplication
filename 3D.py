@@ -92,5 +92,8 @@ end_time = MPI.Wtime()
 # with open(f'res\\res-{rank}.dat', 'wb') as f:
 # 	np.save(f, C_ij_l)
 
+start_times = comm.gather(start_time, root=0)
+end_times = comm.gather(end_time, root=0)
+
 if rank == 0:
 	print(round(max(end_times) - min(start_times), 4))
