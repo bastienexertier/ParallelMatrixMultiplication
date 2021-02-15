@@ -46,11 +46,13 @@ B_lj_i = np.random.randint(-1000, 1000, (k, n1))
 assert A_il_j.shape == (m, k2)
 assert B_lj_i.shape == (k, n1)
 
+start_time = MPI.Wtime()
+
 # Creation of groups (1)
 
-G_il = comm.Split(hash((i, l))%(2<<64), j)
-G_lj = comm.Split(hash((l, j))%(2<<64), i)
-G_ij = comm.Split(hash((i, j))%(2<<64), l)
+G_il = comm.Split(hash((i, l))%(2<<16), j)
+G_lj = comm.Split(hash((l, j))%(2<<16), i)
+G_ij = comm.Split(hash((i, j))%(2<<16), l)
 
 assert G_il.Get_size() == p2
 assert G_lj.Get_size() == p1
@@ -83,7 +85,12 @@ C_ij_l = sum(D_ij_r_l)
 
 assert C_ij_l.shape == D_ij_r_l[0].shape
 
+end_time = MPI.Wtime()
+
 # Saving results for testing
 
 # with open(f'res\\res-{rank}.dat', 'wb') as f:
 # 	np.save(f, C_ij_l)
+
+if rank == 0:
+	print(round(max(end_times) - min(start_times), 4))
