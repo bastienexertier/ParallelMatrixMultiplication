@@ -41,11 +41,10 @@ for k in range(Q):
 
 end_time = MPI.Wtime()
 
-start_times = comm.gather(start_time, root=0)
-end_times = comm.gather(end_time, root=0)
+span_times = comm.gather(end_time - start_time, root=0)
 
 if rank == 0:
-	print(round(max(end_times) - min(start_times), 4))
+	print(f'2D;{size};{int(argv[1])};{round(max(span_times), 4)};{Q}')
 
 # with open(f'res\\res-{rank}.dat', 'wb') as f:
 # 	np.save(f, C)
