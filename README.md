@@ -227,7 +227,7 @@ Now, let's fix the size of the matrices and let the number of cores vary. We sho
 For matrices of size 6400, we can see that the 3D algorithm is slower with a small amount of cores, but the difference shrinks at 256 cores.
 Otherwise, we can see that for each size tested, the 2D algorithm out-performs again the 3D algorithm.
 
-#### Conclusion
+### Conclusion
 
 My experiments showed that **my** implementation of the 2D algorithm is faster than **my** implementation of the 3D algorithm.
 
