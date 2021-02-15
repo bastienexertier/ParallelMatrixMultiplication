@@ -48,9 +48,9 @@ assert B_lj_i.shape == (k, n1)
 
 # Creation of groups (1)
 
-G_il = comm.Split(hash((i, l)%(2<<64)), j)
-G_lj = comm.Split(hash((l, j)%(2<<64)), i)
-G_ij = comm.Split(hash((i, j)%(2<<64)), l)
+G_il = comm.Split(hash((i, l))%(2<<64), j)
+G_lj = comm.Split(hash((l, j))%(2<<64), i)
+G_ij = comm.Split(hash((i, j))%(2<<64), l)
 
 assert G_il.Get_size() == p2
 assert G_lj.Get_size() == p1
