@@ -1,13 +1,25 @@
 """ 3D Matrix Multiplication """
 
+import sys
+
 from mpi4py import MPI
 import numpy as np
 
 comm = MPI.COMM_WORLD
 rank, size = comm.Get_rank(), comm.Get_size()
 
-M, N, K = 800, 16, 32
-p1, p2, p3 = 2, 4, 4
+try:
+	M = N = K = int(sys.argv[1])
+	p1 = int(sys.argv[2])
+	p2 = int(sys.argv[3])
+	p3 = int(sys.argv[4])
+except IndexError:
+	print('python 3D.py N p1 p2 p3')
+	sys.exit(0)
+except ValueError:
+	print('N, p1, p2, p3 must be integers')
+	sys.exit(0)
+
 m, n, k = M//p1, N//p2, K//p3
 k2, n1, n3 = k//p2, n//p1, n//p3
 
@@ -23,6 +35,8 @@ assert 0 <= l < p3
 
 A_il_j = np.random.randint(-1000, 1000, (m, k2))
 B_lj_i = np.random.randint(-1000, 1000, (k, n1))
+
+# Load matrices from files for testing
 
 # with open(f'data\\data-A-{rank}.dat', 'rb') as f:
 # 	A_il_j = np.load(f)
@@ -69,7 +83,7 @@ C_ij_l = sum(D_ij_r_l)
 
 assert C_ij_l.shape == D_ij_r_l[0].shape
 
-# Saving results
+# Saving results for testing
 
 # with open(f'res\\res-{rank}.dat', 'wb') as f:
 # 	np.save(f, C_ij_l)
