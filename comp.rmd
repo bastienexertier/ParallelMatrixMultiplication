@@ -1,0 +1,71 @@
+---
+title: "2D3D"
+output: 
+  pdf_document:
+    dev: "cairo_pdf"
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+data = read.csv('exp.csv')
+head(data)
+```
+
+```{r}
+
+twoD <- data[data$algo == '2D',]
+threeD <- data[data$algo == '3D',]
+
+g <- ggplot(data %>% filter(cores == 256), aes(x = size, colour=algo));
+
+g +
+  geom_point(aes(y = time), data = . %>% filter(algo == "2D")) +
+  geom_point(aes(y = time), data = . %>% filter(algo == "3D")) +
+  expand_limits(x = 0, y = 0) +
+  ggtitle("Execution time for 256 cores")
+
+```
+
+```{r}
+
+twoD <- data[data$algo == '2D',]
+threeD <- data[data$algo == '3D',]
+
+ggplot(data %>% filter(size == 1600), aes(x = cores, colour=algo)) +
+  geom_point(aes(y = time), data = . %>% filter(algo == "2D")) +
+  geom_point(aes(y = time), data = . %>% filter(algo == "3D")) +
+  expand_limits(x = 0, y = 0) +
+  ggtitle("Execution time for size 1600x1600")
+
+ggplot(data %>% filter(size == 3200), aes(x = cores, colour=algo)) +
+  geom_point(aes(y = time), data = . %>% filter(algo == "2D")) +
+  geom_point(aes(y = time), data = . %>% filter(algo == "3D")) +
+  expand_limits(x = 0, y = 0) +
+  ggtitle("Execution time for size 3200x3200")
+
+ggplot(data %>% filter(size == 4800), aes(x = cores, colour=algo)) +
+  geom_point(aes(y = time), data = . %>% filter(algo == "2D")) +
+  geom_point(aes(y = time), data = . %>% filter(algo == "3D")) +
+  expand_limits(x = 0, y = 0) +
+  ggtitle("Execution time for size 4800x4800")
+
+ggplot(data %>% filter(size == 6400), aes(x = cores, colour=algo)) +
+  geom_point(aes(y = time), data = . %>% filter(algo == "2D")) +
+  geom_point(aes(y = time), data = . %>% filter(algo == "3D")) +
+  expand_limits(x = 0, y = 0) +
+  ggtitle("Execution time for size 6400x6400")
+
+ggplot(data %>% filter(size == 9600), aes(x = cores, colour=algo)) +
+  geom_point(aes(y = time), data = . %>% filter(algo == "2D")) +
+  geom_point(aes(y = time), data = . %>% filter(algo == "3D")) +
+  expand_limits(x = 0, y = 0) +
+  ggtitle("Execution time for size 9600x9600")
+
+ggplot(data %>% filter(size == 12800), aes(x = cores, colour=algo)) +
+  geom_point(aes(y = time), data = . %>% filter(algo == "2D")) +
+  geom_point(aes(y = time), data = . %>% filter(algo == "3D")) +
+  expand_limits(x = 0, y = 0) +
+  ggtitle("Execution time for size 12800x12800")
+
+```
