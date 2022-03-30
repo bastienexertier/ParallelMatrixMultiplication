@@ -1,4 +1,4 @@
-# MPI Project Comparison of 2 matrix multiplication algorithm
+# MPI Project : Comparison of 2 matrix multiplication algorithms
 
 ## Introduction
 
